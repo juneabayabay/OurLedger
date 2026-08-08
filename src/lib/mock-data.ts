@@ -9,6 +9,9 @@ export type Account = {
   type: "checking" | "savings" | "credit" | "cash";
   balance: number;
   currency: "USD";
+  scope: "shared" | "personal";
+  ownerMemberId?: string;
+  institution: string;
 };
 
 export type Transaction = {
@@ -89,6 +92,8 @@ export const accounts: Account[] = [
     type: "checking",
     balance: 4280.55,
     currency: "USD",
+    scope: "shared",
+    institution: "Harbor Credit Union",
   },
   {
     id: "acct-savings",
@@ -96,6 +101,8 @@ export const accounts: Account[] = [
     type: "savings",
     balance: 12500,
     currency: "USD",
+    scope: "shared",
+    institution: "Harbor Credit Union",
   },
   {
     id: "acct-credit",
@@ -103,6 +110,28 @@ export const accounts: Account[] = [
     type: "credit",
     balance: -640.22,
     currency: "USD",
+    scope: "shared",
+    institution: "Northstar Bank",
+  },
+  {
+    id: "acct-maya-cash",
+    name: "Maya Pocket Cash",
+    type: "cash",
+    balance: 85,
+    currency: "USD",
+    scope: "personal",
+    ownerMemberId: "member-1",
+    institution: "Cash",
+  },
+  {
+    id: "acct-noah-checking",
+    name: "Noah Everyday",
+    type: "checking",
+    balance: 910.4,
+    currency: "USD",
+    scope: "personal",
+    ownerMemberId: "member-2",
+    institution: "Northstar Bank",
   },
 ];
 
@@ -490,6 +519,88 @@ export const goals: Goal[] = [
     pace: "behind",
   },
 ];
+
+export type ReportMonth = {
+  id: string;
+  label: string;
+  income: number;
+  expenses: number;
+  saved: number;
+};
+
+export type Insight = {
+  id: string;
+  title: string;
+  body: string;
+  tone: "positive" | "gentle";
+};
+
+export type WorkspaceSettings = {
+  currency: "USD";
+  weekStartsOn: "monday" | "sunday";
+  notifyBudgetAlerts: boolean;
+  notifyGoalMilestones: boolean;
+  sharedVisibility: "full" | "summary";
+};
+
+export const reportMonths: ReportMonth[] = [
+  {
+    id: "rep-2026-06",
+    label: "June 2026",
+    income: 6400,
+    expenses: 4120,
+    saved: 900,
+  },
+  {
+    id: "rep-2026-07",
+    label: "July 2026",
+    income: 6400,
+    expenses: 4385,
+    saved: 850,
+  },
+  {
+    id: "rep-2026-08",
+    label: "August 2026",
+    income: 3600,
+    expenses: 285.05,
+    saved: 400,
+  },
+];
+
+export const insights: Insight[] = [
+  {
+    id: "insight-1",
+    title: "Groceries are pacing well",
+    body: "You still have comfortable room in the groceries plan this month. A calm win for Our Money Room.",
+    tone: "positive",
+  },
+  {
+    id: "insight-2",
+    title: "Fun & Outings needs a gentle look",
+    body: "This category is a little over the plan. A small tweak together can bring it back without stress.",
+    tone: "gentle",
+  },
+  {
+    id: "insight-3",
+    title: "Emergency Fund is nearly there",
+    body: "You are on track for the shared cushion. Steady monthly contributions are doing the work.",
+    tone: "positive",
+  },
+  {
+    id: "insight-4",
+    title: "Summer Trip can use a soft boost",
+    body: "A little behind the trip plan — even a small shared top-up helps you catch up kindly.",
+    tone: "gentle",
+  },
+];
+
+export const workspaceSettings: WorkspaceSettings = {
+  currency: "USD",
+  weekStartsOn: "monday",
+  notifyBudgetAlerts: true,
+  notifyGoalMilestones: true,
+  sharedVisibility: "full",
+};
 
 /** Display names for household members, in mock-data order. */
 export function getMemberDisplayNames(): string[] {
