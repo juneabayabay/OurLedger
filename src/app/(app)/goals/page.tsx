@@ -5,6 +5,7 @@ import {
   type GoalPace,
   type GoalStatus,
 } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 
 function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -117,6 +118,14 @@ export default function GoalsPage() {
         together, never against each other.
       </p>
 
+      {sorted.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No goals yet"
+            description="Shared and personal goals will appear here when you set them — progress together, never against each other."
+          />
+        </div>
+      ) : (
       <ul className="mt-8 space-y-10">
         {sorted.map((goal) => {
           const percent = progressPercent(goal);
@@ -245,27 +254,35 @@ export default function GoalsPage() {
 
               <div className="mt-5">
                 <h3 className="text-sm font-semibold text-navy">Recent history</h3>
-                <ul className="mt-2 space-y-2">
-                  {recentHistory.map((entry) => (
-                    <li
-                      key={entry.id}
-                      className="flex flex-wrap items-baseline justify-between gap-2 text-sm"
-                    >
-                      <span className="text-muted">
-                        {formatDate(entry.date)} · {memberName(entry.memberId)} ·{" "}
-                        {entry.note}
-                      </span>
-                      <span className="font-medium tabular-nums text-emerald">
-                        +{formatMoney(entry.amount)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                {recentHistory.length === 0 ? (
+                  <p className="mt-2 text-sm text-muted">
+                    No contributions recorded yet — when you add some, they will
+                    show up here.
+                  </p>
+                ) : (
+                  <ul className="mt-2 space-y-2">
+                    {recentHistory.map((entry) => (
+                      <li
+                        key={entry.id}
+                        className="flex flex-wrap items-baseline justify-between gap-2 text-sm"
+                      >
+                        <span className="text-muted">
+                          {formatDate(entry.date)} · {memberName(entry.memberId)}{" "}
+                          · {entry.note}
+                        </span>
+                        <span className="font-medium tabular-nums text-emerald">
+                          +{formatMoney(entry.amount)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </li>
           );
         })}
       </ul>
+      )}
     </div>
   );
 }

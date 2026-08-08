@@ -1,6 +1,9 @@
+import { EmptyState } from "@/components/ui-states";
+
+/** Soft placeholder for sections that are not built out yet. */
 export function PlaceholderPage({
   title,
-  description = "This section is ready for content. Nothing here yet.",
+  description = "This corner of Our Money Room is ready when you are. Nothing to manage here yet.",
 }: {
   title: string;
   description?: string;
@@ -10,7 +13,9 @@ export function PlaceholderPage({
       <h1 className="text-2xl font-semibold tracking-tight text-navy sm:text-3xl">
         {title}
       </h1>
-      <p className="mt-2 text-base text-muted">{description}</p>
+      <div className="mt-6">
+        <EmptyState title="Coming soon" description={description} />
+      </div>
     </div>
   );
 }

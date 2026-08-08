@@ -1,4 +1,5 @@
 import { budgets, household, type Budget } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 
 const ALERT_RATIO = 0.9;
 
@@ -45,6 +46,15 @@ export default function BudgetsPage() {
         check-ins, not scorekeeping.
       </p>
 
+      {budgets.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No budgets yet"
+            description="Category plans will live here when you're ready — supportive check-ins, not scorekeeping."
+          />
+        </div>
+      ) : (
+        <>
       <div className="mt-6 flex flex-wrap gap-6 text-sm">
         <p>
           <span className="text-muted">On track</span>{" "}
@@ -97,6 +107,8 @@ export default function BudgetsPage() {
           );
         })}
       </ul>
+        </>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { household, insights } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 import { PRODUCT_NAME } from "@/lib/nav";
 
 export default function InsightsPage() {
@@ -12,21 +13,37 @@ export default function InsightsPage() {
       </p>
       <p className="mt-1 text-sm text-muted">{PRODUCT_NAME}</p>
 
-      <ul className="mt-8 space-y-6">
-        {insights.map((insight) => (
-          <li key={insight.id} className="border-b border-border pb-6 last:border-b-0">
-            <p
-              className={`text-xs font-medium uppercase tracking-wide ${
-                insight.tone === "positive" ? "text-emerald" : "text-amber"
-              }`}
+      {insights.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No insights just yet"
+            description="As patterns settle in, gentle notes will appear here. Nothing urgent — just helpful context."
+            actionHref="/budgets"
+            actionLabel="Check budgets"
+          />
+        </div>
+      ) : (
+        <ul className="mt-8 space-y-6">
+          {insights.map((insight) => (
+            <li
+              key={insight.id}
+              className="border-b border-border pb-6 last:border-b-0"
             >
-              {insight.tone === "positive" ? "Encouraging" : "Gentle check-in"}
-            </p>
-            <h2 className="mt-2 text-lg font-medium text-navy">{insight.title}</h2>
-            <p className="mt-2 text-sm text-muted">{insight.body}</p>
-          </li>
-        ))}
-      </ul>
+              <p
+                className={`text-xs font-medium uppercase tracking-wide ${
+                  insight.tone === "positive" ? "text-emerald" : "text-amber"
+                }`}
+              >
+                {insight.tone === "positive" ? "Encouraging" : "Gentle check-in"}
+              </p>
+              <h2 className="mt-2 text-lg font-medium text-navy">
+                {insight.title}
+              </h2>
+              <p className="mt-2 text-sm text-muted">{insight.body}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

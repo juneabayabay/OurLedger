@@ -4,6 +4,7 @@ import {
   transactions,
   type Transaction,
 } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 
 function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -54,59 +55,72 @@ export default function TransactionsPage() {
         Income and expenses for {household.workspaceName}.
       </p>
 
-      <div className="mt-6 flex flex-wrap gap-6 text-sm">
-        <p>
-          <span className="text-muted">Income</span>{" "}
-          <span className="font-semibold text-emerald">
-            +{formatMoney(incomeTotal)}
-          </span>
-        </p>
-        <p>
-          <span className="text-muted">Expenses</span>{" "}
-          <span className="font-semibold text-navy">
-            −{formatMoney(expenseTotal)}
-          </span>
-        </p>
-      </div>
+      {sorted.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No activity yet"
+            description="When shared income and expenses arrive, they'll show up here gently — no rush."
+            actionHref="/accounts"
+            actionLabel="Review accounts"
+          />
+        </div>
+      ) : (
+        <>
+          <div className="mt-6 flex flex-wrap gap-6 text-sm">
+            <p>
+              <span className="text-muted">Income</span>{" "}
+              <span className="font-semibold text-emerald">
+                +{formatMoney(incomeTotal)}
+              </span>
+            </p>
+            <p>
+              <span className="text-muted">Expenses</span>{" "}
+              <span className="font-semibold text-navy">
+                −{formatMoney(expenseTotal)}
+              </span>
+            </p>
+          </div>
 
-      <ul className="mt-8 divide-y divide-border border-y border-border">
-        {sorted.map((txn) => (
-          <li
-            key={txn.id}
-            className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-          >
-            <div className="min-w-0">
-              <p className="font-medium text-navy">{txn.description}</p>
-              <p className="mt-0.5 text-sm text-muted">
-                {txn.category} · {memberName(txn.memberId)} ·{" "}
-                {accountName(txn.accountId)}
-              </p>
-              <p className="mt-0.5 text-sm text-muted sm:hidden">
-                {formatDate(txn.date)}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-baseline justify-between gap-4 sm:flex-col sm:items-end">
-              <p
-                className={`text-base font-semibold tabular-nums ${
-                  txn.type === "income" ? "text-emerald" : "text-navy"
-                }`}
+          <ul className="mt-8 divide-y divide-border border-y border-border">
+            {sorted.map((txn) => (
+              <li
+                key={txn.id}
+                className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
               >
-                {amountLabel(txn)}
-              </p>
-              <p className="hidden text-sm text-muted sm:block">
-                {formatDate(txn.date)}
-              </p>
-              <p
-                className={`text-xs font-medium uppercase tracking-wide sm:hidden ${
-                  txn.type === "income" ? "text-emerald" : "text-muted"
-                }`}
-              >
-                {txn.type}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
+                <div className="min-w-0">
+                  <p className="font-medium text-navy">{txn.description}</p>
+                  <p className="mt-0.5 text-sm text-muted">
+                    {txn.category} · {memberName(txn.memberId)} ·{" "}
+                    {accountName(txn.accountId)}
+                  </p>
+                  <p className="mt-0.5 text-sm text-muted sm:hidden">
+                    {formatDate(txn.date)}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-baseline justify-between gap-4 sm:flex-col sm:items-end">
+                  <p
+                    className={`text-base font-semibold tabular-nums ${
+                      txn.type === "income" ? "text-emerald" : "text-navy"
+                    }`}
+                  >
+                    {amountLabel(txn)}
+                  </p>
+                  <p className="hidden text-sm text-muted sm:block">
+                    {formatDate(txn.date)}
+                  </p>
+                  <p
+                    className={`text-xs font-medium uppercase tracking-wide sm:hidden ${
+                      txn.type === "income" ? "text-emerald" : "text-muted"
+                    }`}
+                  >
+                    {txn.type}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

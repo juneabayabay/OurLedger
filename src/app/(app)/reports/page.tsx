@@ -1,4 +1,5 @@
 import { household, reportMonths } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 import { PRODUCT_NAME } from "@/lib/nav";
 
 function formatMoney(amount: number): string {
@@ -21,59 +22,72 @@ export default function ReportsPage() {
       </p>
       <p className="mt-1 text-sm text-muted">{PRODUCT_NAME}</p>
 
-      {latest ? (
-        <div className="mt-6 grid gap-4 text-sm sm:grid-cols-3">
-          <p>
-            <span className="text-muted">This month income</span>
-            <br />
-            <span className="font-semibold tabular-nums text-emerald">
-              {formatMoney(latest.income)}
-            </span>
-          </p>
-          <p>
-            <span className="text-muted">This month expenses</span>
-            <br />
-            <span className="font-semibold tabular-nums text-navy">
-              {formatMoney(latest.expenses)}
-            </span>
-          </p>
-          <p>
-            <span className="text-muted">This month saved</span>
-            <br />
-            <span className="font-semibold tabular-nums text-emerald">
-              {formatMoney(latest.saved)}
-            </span>
-          </p>
+      {reportMonths.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No reports yet"
+            description="Monthly summaries will appear once there's enough shared activity to look back on."
+            actionHref="/transactions"
+            actionLabel="See financial activity"
+          />
         </div>
-      ) : null}
-
-      <ul className="mt-8 divide-y divide-border border-y border-border">
-        {reportMonths.map((month) => {
-          const net = month.income - month.expenses;
-          return (
-            <li
-              key={month.id}
-              className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <p className="font-medium text-navy">{month.label}</p>
-                <p className="mt-0.5 text-sm text-muted">
-                  Income {formatMoney(month.income)} · Expenses{" "}
-                  {formatMoney(month.expenses)} · Saved{" "}
-                  {formatMoney(month.saved)}
-                </p>
-              </div>
-              <p
-                className={`text-sm font-semibold tabular-nums ${
-                  net >= 0 ? "text-emerald" : "text-amber"
-                }`}
-              >
-                Net {formatMoney(net)}
+      ) : (
+        <>
+          {latest ? (
+            <div className="mt-6 grid gap-4 text-sm sm:grid-cols-3">
+              <p>
+                <span className="text-muted">This month income</span>
+                <br />
+                <span className="font-semibold tabular-nums text-emerald">
+                  {formatMoney(latest.income)}
+                </span>
               </p>
-            </li>
-          );
-        })}
-      </ul>
+              <p>
+                <span className="text-muted">This month expenses</span>
+                <br />
+                <span className="font-semibold tabular-nums text-navy">
+                  {formatMoney(latest.expenses)}
+                </span>
+              </p>
+              <p>
+                <span className="text-muted">This month saved</span>
+                <br />
+                <span className="font-semibold tabular-nums text-emerald">
+                  {formatMoney(latest.saved)}
+                </span>
+              </p>
+            </div>
+          ) : null}
+
+          <ul className="mt-8 divide-y divide-border border-y border-border">
+            {reportMonths.map((month) => {
+              const net = month.income - month.expenses;
+              return (
+                <li
+                  key={month.id}
+                  className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="font-medium text-navy">{month.label}</p>
+                    <p className="mt-0.5 text-sm text-muted">
+                      Income {formatMoney(month.income)} · Expenses{" "}
+                      {formatMoney(month.expenses)} · Saved{" "}
+                      {formatMoney(month.saved)}
+                    </p>
+                  </div>
+                  <p
+                    className={`text-sm font-semibold tabular-nums ${
+                      net >= 0 ? "text-emerald" : "text-amber"
+                    }`}
+                  >
+                    Net {formatMoney(net)}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

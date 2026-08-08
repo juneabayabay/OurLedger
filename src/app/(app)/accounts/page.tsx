@@ -1,4 +1,5 @@
 import { accounts, household } from "@/lib/mock-data";
+import { EmptyState } from "@/components/ui-states";
 import { PRODUCT_NAME } from "@/lib/nav";
 
 function formatMoney(amount: number): string {
@@ -40,45 +41,57 @@ export default function AccountsPage() {
         Accounts
       </h1>
       <p className="mt-2 text-base text-muted">
-        Shared and personal balances in {household.workspaceName} · {PRODUCT_NAME}
+        Shared and personal balances in {household.workspaceName} ·{" "}
+        {PRODUCT_NAME}
       </p>
 
-      <p className="mt-6 text-sm text-muted">
-        Shared net{" "}
-        <span className="font-semibold tabular-nums text-navy">
-          {formatMoney(sharedTotal)}
-        </span>
-      </p>
+      {accounts.length === 0 ? (
+        <div className="mt-8">
+          <EmptyState
+            title="No accounts yet"
+            description="When you add shared or personal accounts, balances will appear here for Our Money Room."
+          />
+        </div>
+      ) : (
+        <>
+          <p className="mt-6 text-sm text-muted">
+            Shared net{" "}
+            <span className="font-semibold tabular-nums text-navy">
+              {formatMoney(sharedTotal)}
+            </span>
+          </p>
 
-      <ul className="mt-8 divide-y divide-border border-y border-border">
-        {accounts.map((account) => {
-          const owner = memberName(account.ownerMemberId);
-          const isCredit = account.type === "credit";
-          return (
-            <li
-              key={account.id}
-              className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <p className="font-medium text-navy">{account.name}</p>
-                <p className="mt-0.5 text-sm text-muted">
-                  {typeLabel(account.type)} · {account.institution} ·{" "}
-                  {account.scope === "shared"
-                    ? "Shared"
-                    : `Personal${owner ? ` · ${owner}` : ""}`}
-                </p>
-              </div>
-              <p
-                className={`text-base font-semibold tabular-nums ${
-                  isCredit ? "text-amber" : "text-navy"
-                }`}
-              >
-                {formatMoney(account.balance)}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
+          <ul className="mt-8 divide-y divide-border border-y border-border">
+            {accounts.map((account) => {
+              const owner = memberName(account.ownerMemberId);
+              const isCredit = account.type === "credit";
+              return (
+                <li
+                  key={account.id}
+                  className="flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="font-medium text-navy">{account.name}</p>
+                    <p className="mt-0.5 text-sm text-muted">
+                      {typeLabel(account.type)} · {account.institution} ·{" "}
+                      {account.scope === "shared"
+                        ? "Shared"
+                        : `Personal${owner ? ` · ${owner}` : ""}`}
+                    </p>
+                  </div>
+                  <p
+                    className={`text-base font-semibold tabular-nums ${
+                      isCredit ? "text-amber" : "text-navy"
+                    }`}
+                  >
+                    {formatMoney(account.balance)}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
