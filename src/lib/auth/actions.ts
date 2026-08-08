@@ -19,7 +19,9 @@ export async function loginAction(
   _prev: AuthActionState,
   formData: FormData,
 ): Promise<AuthActionState> {
-  const login = String(formData.get("email") ?? "");
+  const login = String(
+    formData.get("login") ?? formData.get("email") ?? "",
+  );
   const password = String(formData.get("password") ?? "");
 
   if (!login.replace(/^\s+|\s+$/g, "") || !password.replace(/^\s+|\s+$/g, "")) {

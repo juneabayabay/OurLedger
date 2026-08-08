@@ -32,10 +32,10 @@ export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginAction, null);
 
   return (
-    <form className="space-y-4" action={formAction}>
+    <form className="space-y-4" action={formAction} noValidate>
       <AuthFeedback state={state} />
       <AuthField
-        id="email"
+        id="login"
         label="Household login"
         type="text"
         autoComplete="username"
