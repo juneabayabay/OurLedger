@@ -37,6 +37,7 @@ export function AuthField({
   autoComplete,
   placeholder,
   required = false,
+  spellCheck,
 }: {
   id: string;
   label: string;
@@ -44,6 +45,7 @@ export function AuthField({
   autoComplete?: string;
   placeholder?: string;
   required?: boolean;
+  spellCheck?: boolean;
 }) {
   return (
     <label className="block text-sm" htmlFor={id}>
@@ -55,6 +57,7 @@ export function AuthField({
         autoComplete={autoComplete}
         placeholder={placeholder}
         required={required}
+        spellCheck={spellCheck}
         className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-navy outline-none focus:border-emerald"
       />
     </label>

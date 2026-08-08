@@ -6,8 +6,6 @@ import {
   ACTIVE_MEMBER_COOKIE,
   findMemberById,
 } from "@/lib/member-session";
-import { createClient } from "@/lib/supabase/server";
-import { getSupabasePublicEnv } from "@/lib/supabase/env";
 
 export async function selectMemberAction(formData: FormData) {
   const memberId = String(formData.get("memberId") ?? "");
@@ -31,16 +29,4 @@ export async function clearMemberAction() {
   const cookieStore = await cookies();
   cookieStore.delete(ACTIVE_MEMBER_COOKIE);
   redirect("/dashboard");
-}
-
-export async function logoutAction() {
-  const cookieStore = await cookies();
-  cookieStore.delete(ACTIVE_MEMBER_COOKIE);
-
-  if (getSupabasePublicEnv().isConfigured) {
-    const supabase = await createClient();
-    await supabase.auth.signOut();
-  }
-
-  redirect("/login");
 }

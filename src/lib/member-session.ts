@@ -1,16 +1,15 @@
 import { cookies } from "next/headers";
 import { household, type HouseholdMember } from "@/lib/mock-data";
+import { ACTIVE_MEMBER_COOKIE } from "@/lib/session-cookies";
 
-export const ACTIVE_MEMBER_COOKIE = "our-ledger-active-member";
+export { ACTIVE_MEMBER_COOKIE };
 
 export function getHouseholdMembers(): HouseholdMember[] {
   return [...household.members];
 }
 
 export function findMemberById(memberId: string): HouseholdMember | null {
-  return (
-    household.members.find((member) => member.id === memberId) ?? null
-  );
+  return household.members.find((member) => member.id === memberId) ?? null;
 }
 
 export async function getActiveMemberId(): Promise<string | null> {

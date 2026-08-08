@@ -36,18 +36,19 @@ export function LoginForm() {
       <AuthFeedback state={state} />
       <AuthField
         id="email"
-        label="Household email"
-        type="email"
-        autoComplete="email"
-        placeholder="you@example.com"
+        label="Household login"
+        type="text"
+        autoComplete="username"
+        placeholder="Spaces are allowed"
         required
+        spellCheck={false}
       />
       <AuthField
         id="password"
         label="Password"
         type="password"
         autoComplete="current-password"
-        placeholder="••••••••"
+        placeholder="Spaces are allowed"
         required
       />
       <button
@@ -55,11 +56,11 @@ export function LoginForm() {
         disabled={pending}
         className="w-full rounded-md bg-navy px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60"
       >
-        {pending ? "Signing you in…" : "Log in"}
+        {pending ? "Opening Our Money Room…" : "Log in"}
       </button>
       <p className="text-center text-xs text-muted">
-        One shared login for Our Money Room. After you sign in, each of you can
-        choose who is using the app on the dashboard.
+        One shared login for both of you. Spaces in the login and password are
+        allowed. After you sign in, choose who is using the app on the dashboard.
       </p>
     </form>
   );

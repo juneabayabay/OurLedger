@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { logoutAction } from "@/lib/member-actions";
+import { logoutAction } from "@/lib/auth/actions";
 import { NAV_ITEMS, PRODUCT_NAME, WORKSPACE_LABEL } from "@/lib/nav";
 
 function NavLinks({

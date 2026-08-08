@@ -1,48 +1,37 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { getSupabasePublicEnv } from "@/lib/supabase/env";
+import { HOUSEHOLD_SESSION_COOKIE } from "@/lib/session-cookies";
 
 /**
- * Refresh the Supabase auth session on matching requests.
- * Does not gate routes yet — mock-backed pages stay reachable.
+ * Gate the app behind the shared household login.
+ * After login, the dashboard asks who is using the app; other features unlock then.
  */
 export async function proxy(request: NextRequest) {
-  const { url, key, isConfigured } = getSupabasePublicEnv();
+  const { pathname } = request.nextUrl;
+  const isLoggedIn =
+    request.cookies.get(HOUSEHOLD_SESSION_COOKIE)?.value === "1";
 
-  if (!isConfigured || !url || !key) {
-    return NextResponse.next({ request });
+  const isAuthRoute =
+    pathname.startsWith("/login") || pathname.startsWith("/signup");
+
+  if (pathname === "/") {
+    const url = request.nextUrl.clone();
+    url.pathname = isLoggedIn ? "/dashboard" : "/login";
+    return NextResponse.redirect(url);
   }
 
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+  if (!isLoggedIn && !isAuthRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
 
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet, headers) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value),
-        );
-        supabaseResponse = NextResponse.next({
-          request,
-        });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options),
-        );
-        Object.entries(headers).forEach(([headerKey, value]) =>
-          supabaseResponse.headers.set(headerKey, value),
-        );
-      },
-    },
-  });
+  if (isLoggedIn && isAuthRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
 
-  // Keep session fresh; do not redirect unauthenticated users yet.
-  await supabase.auth.getUser();
-
-  return supabaseResponse;
+  return NextResponse.next({ request });
 }
 
 export const config = {
