@@ -58,7 +58,7 @@ export function AuthField({
         placeholder={placeholder}
         required={required}
         spellCheck={spellCheck}
-        className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-navy outline-none focus:border-emerald"
+        className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-navy outline-none focus:border-sky"
       />
     </label>
   );

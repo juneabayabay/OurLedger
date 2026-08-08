@@ -28,8 +28,13 @@ function AuthFeedback({ state }: { state: AuthActionState }) {
   );
 }
 
-export function LoginForm() {
+export function LoginForm({
+  variant = "default",
+}: {
+  variant?: "default" | "onLight";
+}) {
   const [state, formAction, pending] = useActionState(loginAction, null);
+  const onLight = variant === "onLight";
 
   return (
     <form className="space-y-4" action={formAction} noValidate>
@@ -54,14 +59,20 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-md bg-navy px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60"
+        className={`w-full rounded-md px-4 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-60 ${
+          onLight
+            ? "bg-navy hover:bg-navy-soft"
+            : "bg-navy hover:bg-navy-soft"
+        }`}
       >
-        {pending ? "Opening Our Money Room…" : "Log in"}
+        {pending ? "Opening Our Money Room…" : "Enter Our Money Room"}
       </button>
-      <p className="text-center text-xs text-muted">
-        One shared login for both of you. Spaces in the login and password are
-        allowed. After you sign in, choose who is using the app on the dashboard.
-      </p>
+      {!onLight ? (
+        <p className="text-center text-xs text-muted">
+          One shared login for both of you. Spaces in the login and password are
+          allowed.
+        </p>
+      ) : null}
     </form>
   );
 }

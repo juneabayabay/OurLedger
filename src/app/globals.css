@@ -5,6 +5,8 @@
   --foreground: #1a2332;
   --navy: #0b1f3a;
   --navy-soft: #152a47;
+  --sky: #3d6f9c;
+  --sky-soft: #e7f0f7;
   --emerald: #0f7a5a;
   --emerald-soft: #e6f4ef;
   --amber: #c47b1a;
@@ -21,6 +23,8 @@
   --color-foreground: var(--foreground);
   --color-navy: var(--navy);
   --color-navy-soft: var(--navy-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
   --color-emerald: var(--emerald);
   --color-emerald-soft: var(--emerald-soft);
   --color-amber: var(--amber);
@@ -32,10 +36,64 @@
   --color-muted: var(--muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, sans-serif;
+}
+
+@keyframes login-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes login-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes login-ray {
+  from {
+    opacity: 0;
+    transform: scaleY(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.login-rise {
+  animation: login-rise 0.7s ease-out both;
+}
+
+.login-rise-delay {
+  animation: login-rise 0.8s ease-out 0.12s both;
+}
+
+.login-rise-delay-2 {
+  animation: login-rise 0.85s ease-out 0.22s both;
+}
+
+.login-glow {
+  animation: login-glow 6s ease-in-out infinite;
+}
+
+.login-ray {
+  animation: login-ray 1.1s ease-out both;
+  transform-origin: top center;
 }
