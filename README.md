@@ -1,3 +1,9 @@
+# Our Ledger
+
+Shared Money. Shared Goals.
+
+A private shared finance tracker for couples to manage income, expenses, budgets, savings goals, and financial plans together.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
