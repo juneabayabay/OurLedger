@@ -1,3 +1,5 @@
+import { household } from "@/lib/mock-data";
+
 export const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/transactions", label: "Transactions" },
@@ -9,5 +11,5 @@ export const NAV_ITEMS = [
   { href: "/settings", label: "Settings" },
 ] as const;
 
-export const WORKSPACE_LABEL = "Our Money Room";
+export const WORKSPACE_LABEL = household.workspaceName;
 export const PRODUCT_NAME = "Our Ledger";
