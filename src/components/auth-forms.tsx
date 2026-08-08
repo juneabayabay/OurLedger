@@ -10,7 +10,7 @@ function AuthFeedback({ state }: { state: AuthActionState }) {
   if (state.error) {
     return (
       <p
-        className="rounded-md border border-amber/30 bg-amber-soft px-3 py-2 text-sm text-amber"
+        className="border border-amber/25 bg-amber-soft px-3.5 py-2.5 text-sm text-amber"
         role="alert"
       >
         {state.error}
@@ -20,7 +20,7 @@ function AuthFeedback({ state }: { state: AuthActionState }) {
 
   return (
     <p
-      className="rounded-md border border-emerald/30 bg-emerald-soft px-3 py-2 text-sm text-emerald"
+      className="border border-emerald/25 bg-emerald-soft px-3.5 py-2.5 text-sm text-emerald"
       role="status"
     >
       {state.message}
@@ -34,17 +34,16 @@ export function LoginForm({
   variant?: "default" | "onLight";
 }) {
   const [state, formAction, pending] = useActionState(loginAction, null);
-  const onLight = variant === "onLight";
 
   return (
-    <form className="space-y-4" action={formAction} noValidate>
+    <form className="space-y-5" action={formAction} noValidate>
       <AuthFeedback state={state} />
       <AuthField
         id="login"
         label="Household login"
         type="text"
         autoComplete="username"
-        placeholder="Spaces are allowed"
+        placeholder="Enter household login"
         required
         spellCheck={false}
       />
@@ -53,24 +52,19 @@ export function LoginForm({
         label="Password"
         type="password"
         autoComplete="current-password"
-        placeholder="Spaces are allowed"
+        placeholder="Enter password"
         required
       />
       <button
         type="submit"
         disabled={pending}
-        className={`w-full rounded-md px-4 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-60 ${
-          onLight
-            ? "bg-navy hover:bg-navy-soft"
-            : "bg-navy hover:bg-navy-soft"
-        }`}
+        className="mt-1 w-full bg-navy px-4 py-3.5 text-sm font-medium tracking-wide text-white transition-colors hover:bg-navy-soft disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "Opening Our Money Room…" : "Enter Our Money Room"}
+        {pending ? "Signing in…" : "Sign in"}
       </button>
-      {!onLight ? (
+      {variant === "default" ? (
         <p className="text-center text-xs text-muted">
-          One shared login for both of you. Spaces in the login and password are
-          allowed.
+          One shared login for both of you. Spaces are allowed.
         </p>
       ) : null}
     </form>

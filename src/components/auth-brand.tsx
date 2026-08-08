@@ -49,7 +49,9 @@ export function AuthField({
 }) {
   return (
     <label className="block text-sm" htmlFor={id}>
-      <span className="font-medium text-navy">{label}</span>
+      <span className="text-[13px] font-medium tracking-wide text-navy">
+        {label}
+      </span>
       <input
         id={id}
         name={id}
@@ -58,7 +60,7 @@ export function AuthField({
         placeholder={placeholder}
         required={required}
         spellCheck={spellCheck}
-        className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-navy outline-none focus:border-sky"
+        className="mt-2 w-full border border-border bg-surface px-3.5 py-3 text-[15px] text-navy outline-none transition-colors placeholder:text-muted/55 focus:border-navy"
       />
     </label>
   );
