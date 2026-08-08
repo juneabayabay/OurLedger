@@ -146,6 +146,20 @@ export const budgets: Budget[] = [
     spent: 94.15,
     period: "monthly",
   },
+  {
+    id: "budget-transport",
+    category: "Transport",
+    limit: 150,
+    spent: 138,
+    period: "monthly",
+  },
+  {
+    id: "budget-fun",
+    category: "Fun & Outings",
+    limit: 120,
+    spent: 135,
+    period: "monthly",
+  },
 ];
 
 export const goals: Goal[] = [
