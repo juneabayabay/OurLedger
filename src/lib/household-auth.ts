@@ -2,16 +2,11 @@ import { cookies } from "next/headers";
 import { HOUSEHOLD_SESSION_COOKIE } from "@/lib/session-cookies";
 import { DEFAULT_HOUSEHOLD_CREDENTIALS } from "@/lib/household-constants";
 
-const DEFAULT_LOGIN = "We are the child of God";
-const DEFAULT_PASSWORD = "We live by Grace";
-
 export function getHouseholdCredentials(): {
   login: string;
   password: string;
 } {
   return {
-    login: process.env.HOUSEHOLD_LOGIN ?? DEFAULT_LOGIN,
-    password: process.env.HOUSEHOLD_PASSWORD ?? DEFAULT_PASSWORD,
     login: process.env.HOUSEHOLD_LOGIN ?? DEFAULT_HOUSEHOLD_CREDENTIALS.login,
     password: process.env.HOUSEHOLD_PASSWORD ?? DEFAULT_HOUSEHOLD_CREDENTIALS.password,
   };
