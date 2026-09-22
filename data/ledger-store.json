@@ -1,0 +1,89 @@
+{
+  "transactions": [],
+  "accounts": [
+    {
+      "id": "acct-checking",
+      "name": "Joint Checking",
+      "type": "checking",
+      "balance": 1271.4499999999998,
+      "currency": "USD",
+      "scope": "shared",
+      "institution": "Harbor Credit Union"
+    },
+    {
+      "id": "acct-savings",
+      "name": "Emergency Fund",
+      "type": "savings",
+      "balance": 12100,
+      "currency": "USD",
+      "scope": "shared",
+      "institution": "Harbor Credit Union"
+    },
+    {
+      "id": "acct-credit",
+      "name": "Shared Card",
+      "type": "credit",
+      "balance": -546.07,
+      "currency": "USD",
+      "scope": "shared",
+      "institution": "Northstar Bank"
+    },
+    {
+      "id": "acct-maya-cash",
+      "name": "Maya Pocket Cash",
+      "type": "cash",
+      "balance": 85,
+      "currency": "USD",
+      "scope": "personal",
+      "ownerMemberId": "member-1",
+      "institution": "Cash"
+    },
+    {
+      "id": "acct-noah-checking",
+      "name": "Noah Everyday",
+      "type": "checking",
+      "balance": 910.4,
+      "currency": "USD",
+      "scope": "personal",
+      "ownerMemberId": "member-2",
+      "institution": "Northstar Bank"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "budget-groceries",
+      "category": "Groceries",
+      "limit": 500,
+      "spent": 0,
+      "period": "monthly"
+    },
+    {
+      "id": "budget-dining",
+      "category": "Dining",
+      "limit": 200,
+      "spent": 0,
+      "period": "monthly"
+    },
+    {
+      "id": "budget-utilities",
+      "category": "Utilities",
+      "limit": 250,
+      "spent": 0,
+      "period": "monthly"
+    },
+    {
+      "id": "budget-transport",
+      "category": "Transport",
+      "limit": 150,
+      "spent": 138,
+      "period": "monthly"
+    },
+    {
+      "id": "budget-fun",
+      "category": "Fun & Outings",
+      "limit": 120,
+      "spent": 135,
+      "period": "monthly"
+    }
+  ]
+}

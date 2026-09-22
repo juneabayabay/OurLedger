@@ -1,4 +1,5 @@
-import { budgets, household, type Budget } from "@/lib/mock-data";
+import { household, type Budget } from "@/lib/mock-data";
+import { getBudgets } from "@/lib/data-store";
 import { EmptyState } from "@/components/ui-states";
 
 const ALERT_RATIO = 0.9;
@@ -32,9 +33,11 @@ function statusMessage(budget: Budget): string {
   return "Under budget — nice work staying aligned with your plan.";
 }
 
-export default function BudgetsPage() {
-  const underCount = budgets.filter((budget) => !needsAlert(budget)).length;
-  const alertCount = budgets.filter((budget) => needsAlert(budget)).length;
+export default async function BudgetsPage() {
+  const budgetsList = await getBudgets();
+
+  const underCount = budgetsList.filter((budget) => !needsAlert(budget)).length;
+  const alertCount = budgetsList.filter((budget) => needsAlert(budget)).length;
 
   return (
     <div className="mx-auto w-full max-w-3xl">
@@ -46,7 +49,7 @@ export default function BudgetsPage() {
         check-ins, not scorekeeping.
       </p>
 
-      {budgets.length === 0 ? (
+      {budgetsList.length === 0 ? (
         <div className="mt-8">
           <EmptyState
             title="No budgets yet"
@@ -55,58 +58,67 @@ export default function BudgetsPage() {
         </div>
       ) : (
         <>
-      <div className="mt-6 flex flex-wrap gap-6 text-sm">
-        <p>
-          <span className="text-muted">On track</span>{" "}
-          <span className="font-semibold text-emerald">{underCount}</span>
-        </p>
-        <p>
-          <span className="text-muted">Worth a look</span>{" "}
-          <span className="font-semibold text-amber">{alertCount}</span>
-        </p>
-      </div>
+          <div className="mt-6 flex flex-wrap gap-6 text-sm">
+            <p>
+              <span className="text-muted">On track</span>{" "}
+              <span className="font-semibold text-emerald">{underCount}</span>
+            </p>
+            <p>
+              <span className="text-muted">Worth a look</span>{" "}
+              <span className="font-semibold text-amber">{alertCount}</span>
+            </p>
+          </div>
 
-      <ul className="mt-8 space-y-6">
-        {budgets.map((budget) => {
-          const alert = needsAlert(budget);
-          const ratio = Math.min(usageRatio(budget), 1);
-          const remaining = budget.limit - budget.spent;
-          const barColor = alert ? "bg-amber" : "bg-emerald";
-          const accentText = alert ? "text-amber" : "text-emerald";
+          <ul className="mt-8 space-y-6">
+            {budgetsList.map((budget) => {
+              const alert = needsAlert(budget);
+              const ratio = Math.min(usageRatio(budget), 1);
+              const remaining = budget.limit - budget.spent;
+              const barColor = alert ? "bg-amber" : "bg-emerald";
+              const accentText = alert ? "text-amber" : "text-emerald";
 
-          return (
-            <li key={budget.id} className="border-b border-border pb-6 last:border-b-0">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="text-lg font-medium text-navy">{budget.category}</h2>
-                <p className={`text-sm font-semibold tabular-nums ${accentText}`}>
-                  {formatMoney(budget.spent)} of {formatMoney(budget.limit)}
-                </p>
-              </div>
+              return (
+                <li
+                  key={budget.id}
+                  className="border-b border-border pb-6 last:border-b-0"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h2 className="text-lg font-medium text-navy">
+                      {budget.category}
+                    </h2>
+                    <p
+                      className={`text-sm font-semibold tabular-nums ${accentText}`}
+                    >
+                      {formatMoney(budget.spent)} of {formatMoney(budget.limit)}
+                    </p>
+                  </div>
 
-              <div
-                className="mt-3 h-2 overflow-hidden rounded-full bg-border"
-                role="progressbar"
-                aria-valuenow={Math.round(ratio * 100)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label={`${budget.category} budget used`}
-              >
-                <div
-                  className={`h-full rounded-full transition-[width] ${barColor}`}
-                  style={{ width: `${ratio * 100}%` }}
-                />
-              </div>
+                  <div
+                    className="mt-3 h-2 overflow-hidden rounded-full bg-border"
+                    role="progressbar"
+                    aria-valuenow={Math.round(ratio * 100)}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${budget.category} budget used`}
+                  >
+                    <div
+                      className={`h-full rounded-full transition-[width] ${barColor}`}
+                      style={{ width: `${ratio * 100}%` }}
+                    />
+                  </div>
 
-              <p className={`mt-3 text-sm ${accentText}`}>{statusMessage(budget)}</p>
-              <p className="mt-1 text-sm text-muted">
-                {remaining >= 0
-                  ? `${formatMoney(remaining)} left this month`
-                  : `${formatMoney(Math.abs(remaining))} over the plan — still recoverable`}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
+                  <p className={`mt-3 text-sm ${accentText}`}>
+                    {statusMessage(budget)}
+                  </p>
+                  <p className="mt-1 text-sm text-muted">
+                    {remaining >= 0
+                      ? `${formatMoney(remaining)} left this month`
+                      : `${formatMoney(Math.abs(remaining))} over the plan — still recoverable`}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
         </>
       )}
     </div>

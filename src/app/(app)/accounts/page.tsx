@@ -1,4 +1,5 @@
-import { accounts, household } from "@/lib/mock-data";
+import { household } from "@/lib/mock-data";
+import { getAccounts } from "@/lib/data-store";
 import { EmptyState } from "@/components/ui-states";
 import { PRODUCT_NAME } from "@/lib/nav";
 
@@ -17,7 +18,7 @@ function memberName(memberId?: string): string | null {
   );
 }
 
-function typeLabel(type: (typeof accounts)[number]["type"]): string {
+function typeLabel(type: "checking" | "savings" | "credit" | "cash"): string {
   switch (type) {
     case "checking":
       return "Checking";
@@ -30,8 +31,10 @@ function typeLabel(type: (typeof accounts)[number]["type"]): string {
   }
 }
 
-export default function AccountsPage() {
-  const sharedTotal = accounts
+export default async function AccountsPage() {
+  const accountsList = await getAccounts();
+
+  const sharedTotal = accountsList
     .filter((account) => account.scope === "shared")
     .reduce((sum, account) => sum + account.balance, 0);
 
@@ -45,7 +48,7 @@ export default function AccountsPage() {
         {PRODUCT_NAME}
       </p>
 
-      {accounts.length === 0 ? (
+      {accountsList.length === 0 ? (
         <div className="mt-8">
           <EmptyState
             title="No accounts yet"
@@ -62,7 +65,7 @@ export default function AccountsPage() {
           </p>
 
           <ul className="mt-8 divide-y divide-border border-y border-border">
-            {accounts.map((account) => {
+            {accountsList.map((account) => {
               const owner = memberName(account.ownerMemberId);
               const isCredit = account.type === "credit";
               return (
